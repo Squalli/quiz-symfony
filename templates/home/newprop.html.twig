@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+   
+   {{ form_start(form) }}
+      {{ form_errors(form) }}
+
+      {{ form_row(form.text) }}
+      {{ form_row(form.correct) }}
+      {{ form_row(form.question) }}
+      <input type="submit" value="Ajouter">
+   {{ form_end(form) }}
+
+{% endblock %}

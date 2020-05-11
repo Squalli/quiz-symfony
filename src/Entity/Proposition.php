@@ -72,4 +72,5 @@ class Proposition
 
         return $this;
     }
+
 }

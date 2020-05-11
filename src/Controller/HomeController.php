@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Question;
 use App\Form\QuestionType;
+use App\Entity\Proposition;
+use App\Form\PropositionType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -66,6 +68,33 @@ class HomeController extends AbstractController
 
         return $this->render(
             "home/new.html.twig", [
+                "form" => $form->createView()
+            ]
+        );
+    }
+
+    /**
+     * @Route("/newProposition", name="newProposition")
+     */
+    public function newProp(Request $request){
+
+        $prop = new Proposition();
+        $form = $this->createForm(PropositionType::class, $prop);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($prop);
+            $em->flush();
+
+            return $this->redirectToRoute("question", [
+                "id" => $prop->getQuestion()->getId()
+            ]);
+        }
+
+        return $this->render(
+            "home/newprop.html.twig", [
                 "form" => $form->createView()
             ]
         );
